@@ -10,13 +10,16 @@ k:
   t: float
   v: 0..1/10    # 0.0, 0.1, ..., 1.0
 ```
-
 2. Execute command.
 ```bash
 python main.py --input sample.yml --output="project/run{0:04d}/param.yml"
 ```
-
 3. You will find parameter files in the directories.
+```yaml
+# run0000/param.yml
+n: 1
+k: 0.0
+```
 ```
 project0/
 | run0000/
