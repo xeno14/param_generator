@@ -23,12 +23,16 @@ def Output(path, data):
         f.write(yml)
 
 
-def PGenerator(input_file, output_path):
-    p = parser.CreateParser([
+def CreateParser():
+    return parser.CreateParser([
         ("int", r"%d\.\.%d", ArangeNoStep),
         ("float", r"%f\.\.%f\.\.%f", Arange),
         ("float", r"%f\.\.%f/%d", Linspace),
         ])
+
+
+def PGenerator(input_file, output_path):
+    p = CreateParser()
 
     for i, conf in enumerate(p.generate(input_file)):
         path = output_path.format(i)

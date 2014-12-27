@@ -9,7 +9,7 @@ class Parser(object):
     TYPE_PATTERN = {
         r"%d": r"([+-]?\d+)",
         r"%f": r"([+-]?\d+"
-                    r"|[+-]?\d+\.\d+)"}
+               r"|[+-]?\d+\.\d+)"}
 
     def __init__(self):
         self.handlers = {t: [] for t in Parser.TYPES}
@@ -35,24 +35,28 @@ class Parser(object):
 
     def generate(self, filename):
         with open(filename) as f:
-            conf = yaml.load(f)
-            param = {}
-
-            keys = []
-            values = []
-            for k, v in conf.iteritems():
-                keys.append(k)
-                try:
-                    values.append(self.parse(v["t"], v["v"]))
-                except Exception as e:
-                    print "Error at '{}':".format(k), str(e)
-                    sys.exit(1)
-
-            for product in itertools.product(*values):
-                conf = {}
-                for i, k in enumerate(keys):
-                    conf[k] = product[i]
+            # TODO load json
+            for conf in self.generate_impl(yaml.load(f)):
                 yield conf
+
+    def generate_impl(self, dic):
+        param = {}
+
+        keys = []
+        values = []
+        for k, v in dic.iteritems():
+            keys.append(k)
+            try:
+                values.append(self.parse(v["t"], v["v"]))
+            except Exception as e:
+                print "Error at '{}':".format(k), str(e)
+                sys.exit(1)
+
+        for product in itertools.product(*values):
+            conf = {}
+            for i, k in enumerate(keys):
+                conf[k] = product[i]
+            yield conf
 
 
 def CreateParser(handlers):
