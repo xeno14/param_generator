@@ -63,6 +63,10 @@ class GeneratorTest(unittest.TestCase):
         self.assertAlmostEqual([-1.5, 0, 1.5],
                                self.Parse("float", "-1.5..1.5/3"))
 
+    def testStr(self):
+        self.assertEqual(["aiueo"],
+                         self.Parse("str", "aiueo"))
+
 
 if __name__ == '__main__':
     unittest.main()
