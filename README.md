@@ -1,7 +1,7 @@
 param\_generator
 ================
 
-1. Prepare your configuration.
+Prepare your configuration.
 ```yaml
 n:
   t: int
@@ -10,11 +10,13 @@ k:
   t: float
   v: 0..1/10    # 0.0, 0.1, ..., 1.0
 ```
-2. Execute command.
+
+Execute command.
 ```bash
 python main.py --input sample.yml --output="project/run{0:04d}/param.yml"
 ```
-3. You will find parameter files in the directories.
+
+You will find parameter files in the directories.
 ```yaml
 # run0000/param.yml
 n: 1
