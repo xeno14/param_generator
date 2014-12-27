@@ -1,5 +1,6 @@
 import itertools
 import re
+import sys
 import yaml
 
 class Parser(object):
@@ -30,8 +31,7 @@ class Parser(object):
             if m:
                 arg = [Parser.TYPE_FUNC[t](s) for s in m.groups()]
                 return pattern[1](*arg)
-        print "No matching pattern for {}".format(v)
-        return []
+        raise Exception("No matching pattern for {}".format(v))
 
     def generate(self, filename):
         with open(filename) as f:
@@ -42,7 +42,11 @@ class Parser(object):
             values = []
             for k, v in conf.iteritems():
                 keys.append(k)
-                values.append(self.parse(v["t"], v["v"]))
+                try:
+                    values.append(self.parse(v["t"], v["v"]))
+                except Exception as e:
+                    print "Error at '{}':".format(k), str(e)
+                    sys.exit(1)
 
             for product in itertools.product(*values):
                 conf = {}
