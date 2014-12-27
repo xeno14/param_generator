@@ -7,8 +7,8 @@ class Parser(object):
     TYPES = ("int", "float", "str")
     TYPE_FUNC = {"int": int, "float": float, "str": str}
     TYPE_PATTERN = {
-        r"(int)": r"([+-]?\d+)",
-        r"(float)": r"([+-]?\d+"
+        r"%d": r"([+-]?\d+)",
+        r"%f": r"([+-]?\d+"
                     r"|[+-]?\d+\.\d+)"}
 
     def __init__(self):
