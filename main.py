@@ -15,8 +15,9 @@ def main(argv):
     argv = FLAGS(argv)
 
     p = parser.CreateParser([
-        ("int", r"(int)\.\.(int)", IntRangeNoStep),
-        ("float", r"(float)\.\.(float)\.\.(float)", FloatRange),
+        ("int", r"(int)\.\.(int)", ArangeNoStep),
+        ("float", r"(float)\.\.(float)\.\.(float)", Arange),
+        ("float", r"(float)\.\.(float)/(int)", Linspace),
         ])
     for i, conf in enumerate(p.generate(FLAGS.input)):
         print i, conf

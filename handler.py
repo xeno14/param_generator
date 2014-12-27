@@ -1,10 +1,13 @@
+import numpy as np
 
-def IntRange(start, step, stop):
-    return range(start, stop+1, step)
 
-def IntRangeNoStep(start, stop):
-    return range(start, stop+1)
+def ArangeNoStep(start, stop):
+    return np.arange(start, stop+1)
 
-def FloatRange(start, step, stop):
-    N = int(abs((start - stop)/step)) + 1
-    return [float(start) + step * i for i in xrange(N)]
+
+def Arange(start, step, stop):
+    return np.arange(start, stop, step)
+
+
+def Linspace(start, stop, num):
+    return np.linspace(start, stop, num)
