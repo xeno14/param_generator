@@ -29,6 +29,11 @@ class ParserTest(unittest.TestCase):
         self.assertTrue(p.match("-1"))
         self.assertTrue(p.match("1.0"))
         self.assertTrue(p.match("-1.0"))
+        self.assertFalse(p.match("1."))
+        self.assertFalse(p.match(".1"))
+        self.assertTrue(p.match("1.0e-100"))
+        self.assertTrue(p.match("1.0E3.14"))
+        self.assertTrue(p.match("-1.0E1000"))
 
 
 class GeneratorTest(unittest.TestCase):

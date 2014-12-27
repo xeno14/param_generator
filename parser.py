@@ -9,7 +9,9 @@ class Parser(object):
     TYPE_PATTERN = {
         r"%d": r"([+-]?\d+)",
         r"%f": r"([+-]?\d+"
-               r"|[+-]?\d+\.\d+)"}
+               r"|[+-]?\d+\.\d+"
+               r"|[+-]?\d+\.\d+[eE][+-]?\d+"
+               r"|[+-]?\d+\.\d+[eE][+-]?\d+\.\d+)",}
 
     def __init__(self):
         self.handlers = {t: [] for t in Parser.TYPES}
