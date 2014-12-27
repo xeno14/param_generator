@@ -4,7 +4,11 @@ import yaml
 
 class Parser(object):
     TYPES = ("int", "float", "str")
-    TYPE_FUNCS = {"int": int, "float": float, "str": str}
+    TYPE_FUNC = {"int": int, "float": float, "str": str}
+    TYPE_PATTERN = {
+        r"(int)": r"([+-]?\d+)",
+        r"(float)": r"([+-]?\d+"
+                    r"|[+-]?\d+\.\d+)"}
 
     def __init__(self):
         self.handlers = {t: [] for t in Parser.TYPES}
@@ -12,6 +16,8 @@ class Parser(object):
     def register(self, t, pattern, handler):
         if t not in Parser.TYPES:
             raise Exception(t + " is unknown type")
+        for before, after in Parser.TYPE_PATTERN.iteritems():
+            pattern = pattern.replace(before, after)
         if not pattern.startswith("^"):
             pattern = r"^" + pattern
         if not pattern.endswith("$"):
@@ -22,8 +28,9 @@ class Parser(object):
         for pattern in self.handlers[t]:
             m = pattern[0].match(v)
             if m:
-                arg = [Parser.TYPE_FUNCS[t](s) for s in m.groups()]
+                arg = [Parser.TYPE_FUNC[t](s) for s in m.groups()]
                 return pattern[1](*arg)
+        print "No matching pattern for {}".format(v)
         return []
 
     def generate(self, filename):
