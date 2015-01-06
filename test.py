@@ -43,7 +43,7 @@ class GeneratorTest(unittest.TestCase):
 
     def Parse(self, t, v):
         return [d["key"]
-                for d in self.parser.generate_impl({"key": {"t": t, "v": v}})]
+                for d in self.parser.GenerateImpl({"key": {"t": t, "v": v}})]
 
     def assertAlmostEqualList(self, first, second,
                               places=7, msg=None, delta=None):

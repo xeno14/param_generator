@@ -17,7 +17,7 @@ class Parser(object):
     def __init__(self):
         self.handlers = {t: [] for t in Parser.TYPES}
 
-    def register(self, t, pattern, handler):
+    def Register(self, t, pattern, handler):
         if t not in Parser.TYPES:
             raise Exception(t + " is unknown type")
         for before, after in Parser.TYPE_PATTERN.iteritems():
@@ -28,7 +28,7 @@ class Parser(object):
             pattern = pattern + r"$"
         self.handlers[t].append((re.compile(pattern), handler))
 
-    def parse(self, t, v):
+    def Parse(self, t, v):
         for pattern in self.handlers[t]:
             m = pattern[0].match(v)
             if m:
@@ -36,13 +36,13 @@ class Parser(object):
                 return pattern[1](*arg)
         raise Exception("No matching pattern for {}".format(v))
 
-    def generate(self, filename):
+    def Generate(self, filename):
         with open(filename) as f:
             # TODO load json
-            for param in self.generate_impl(yaml.load(f)):
+            for param in self.GenerateImpl(yaml.load(f)):
                 yield param
 
-    def generate_impl(self, dic):
+    def GenerateImpl(self, dic):
         keys = []
         values = []
         for k, v in dic.iteritems():
@@ -59,7 +59,7 @@ class Parser(object):
                     values.append([unicode(val)])
             else:
                 try:
-                    values.append(self.parse(v["t"], v["v"]))
+                    values.append(self.Parse(v["t"], v["v"]))
                 except Exception as e:
                     print "Error at '{}':".format(k), str(e)
                     sys.exit(1)
@@ -71,5 +71,5 @@ class Parser(object):
 def CreateParser(args_list):
     parser = Parser()
     for args in args_list:
-        parser.register(*args)
+        parser.Register(*args)
     return parser
