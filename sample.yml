@@ -1,6 +1,4 @@
-a:
-  t: int
-  v: 1..2
-b:
-  t: float
-  v: 0..1/5
+N: 1..10@int
+L: 10..100/10@float
+eta: 0.03
+steps: 1000

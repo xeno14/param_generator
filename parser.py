@@ -44,25 +44,50 @@ class Parser(object):
 
     def GenerateImpl(self, dic):
         keys = []
-        values = []
-        for k, v in dic.iteritems():
-            typ = v["t"]    # type
-            val = v["v"]    # value configuration
+        values = []     # variable name -> list of values
 
-            keys.append(k)
-            if isinstance(val, int) or isinstance(val, float):
+        for key, val in dic.iteritems():
+            keys.append(key)
+            if isinstance(val, str):
                 values.append([val])
-            elif typ == "str":
-                if isinstance(val, str):
-                    values.append([str(val)])
-                elif isinstance(val, unicode):
-                    values.append([unicode(val)])
+                if "@" in val:
+                    i = val.find("@")
+                    typ = val[i+1:].strip()
+                    exp = val[:i].strip()
+                    print exp, "@", typ
+                    values.append(exp)
+                    # values.append(self.Parse(typ, exp))
+                else:
+                    values.append([val])
             else:
-                try:
-                    values.append(self.Parse(v["t"], v["v"]))
-                except Exception as e:
-                    print "Error at '{}':".format(k), str(e)
-                    sys.exit(1)
+                values.append([val])
+        #
+        # for k, v in dic.iteritems():
+        #     if "t" in v and "v" in v:
+        #         typ = v["t"]    # type
+        #         val = v["v"]    # value configuration
+        #
+        #         keys.append(k)
+        #         if isinstance(val, int) or isinstance(val, float):
+        #             values.append([val])
+        #         elif typ == "str":
+        #             if isinstance(val, str):
+        #                 values.append([str(val)])
+        #             elif isinstance(val, unicode):
+        #                 values.append([unicode(val)])
+        #         else:
+        #             try:
+        #                 values.append(self.Parse(v["t"], v["v"]))
+        #             except Exception as e:
+        #                 print "Error at '{}':".format(k), str(e)
+        #                 sys.exit(1)
+        #     else:
+        #         if self.IsNumber(v):
+        #             values.append([v])
+        #         elif isinstance(v, str):
+        #             
+
+
         # Loop for all the possible combinations among values
         for product in itertools.product(*values):
             yield {k: product[i] for i, k in enumerate(keys)}

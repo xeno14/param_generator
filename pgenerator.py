@@ -40,7 +40,7 @@ def CreateParser():
 def PGenerator(input_file, output_path):
     p = CreateParser()
 
-    for i, conf in enumerate(p.generate(input_file)):
+    for i, conf in enumerate(p.Generate(input_file)):
         path = output_path.format(i)
         print path
         Output(path, conf)
