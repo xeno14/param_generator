@@ -1,6 +1,10 @@
 import numpy as np
 
 
+def Range(start, step, stop):
+    return range(start, stop+1, step)
+
+
 def ArangeNoStep(start, stop):
     return np.arange(start, stop+1).tolist()
 

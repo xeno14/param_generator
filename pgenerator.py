@@ -3,11 +3,13 @@ from handler import *
 
 import gflags
 import os
+import json
 import sys
 import yaml
 
 
 gflags.DEFINE_bool("verbose", False, "more information")
+gflags.DEFINE_enum("filetype", "yaml", ["yaml", "json"], "filetype of output")
 
 FLAGS = gflags.FLAGS
 
@@ -17,15 +19,19 @@ def Output(path, data):
     if not os.path.exists(dirname):
         os.makedirs(dirname)
     with open(path, "w") as f:
-        yml = yaml.dump(data, default_flow_style=False)
+        if FLAGS.filetype == "yaml":
+            res = yaml.dump(data, default_flow_style=False)
+        elif FLAGS.filetype == "json":
+            res = json.dumps(data, indent=4)
         if FLAGS.verbose:
-            print yml
-        f.write(yml)
+            print res
+        f.write(res)
 
 
 def CreateParser():
     return parser.CreateParser([
         ("int", r"%d\.\.%d", ArangeNoStep),
+        ("int", r"%d\.\.%d\.\.%d", Arange),
         ("float", r"%f\.\.%f\.\.%f", Arange),
         ("float", r"%f\.\.%f/%d", Linspace),
         ])
