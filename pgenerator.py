@@ -6,7 +6,9 @@ import os
 import json
 import yaml
 
-
+gflags.DEFINE_string("input", None, "input yaml file")
+gflags.DEFINE_string("output", "run{}/param.yml",
+                     "output with format of parameter's filename")
 gflags.DEFINE_bool("verbose", False, "more information")
 gflags.DEFINE_enum("filetype", "yaml", ["yaml", "json"], "filetype of output")
 gflags.DEFINE_bool("show", False, "show parsed values")
@@ -49,3 +51,8 @@ def PGenerator(input_file, output_path):
             path = output_path.format(idx)
             print path
             Output(path, conf)
+
+
+def main(argv):
+    argv = FLAGS(argv)
+    PGenerator(FLAGS.input, FLAGS.output)
