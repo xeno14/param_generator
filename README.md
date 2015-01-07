@@ -47,3 +47,13 @@ python main.py --input sample.yml --output="project/run{0:04d}/param.yml"
 
 You will find many directories under `project`. Each directory contains
 `param.yml`.
+
+For example, `project/run0000/param.yml` should be this:
+
+```yaml
+L: 10.0
+N: 1
+region: 1
+steps: 1000
+type: A
+```
