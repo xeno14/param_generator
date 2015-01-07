@@ -1,5 +1,5 @@
 import parser
-from handler import *
+import handler
 
 import gflags
 import os
@@ -30,10 +30,10 @@ def Output(path, data):
 
 def CreateParser():
     return parser.CreateParser([
-        ("int", r"%d\.\.%d", ArangeNoStep),
-        ("int", r"%d\.\.%d\.\.%d", Arange),
-        ("float", r"%f\.\.%f\.\.%f", Arange),
-        ("float", r"%f\.\.%f/%d", Linspace),
+        ("int", r"%d\.\.%d",         handler.ArangeNoStep),
+        ("int", r"%d\.\.%d\.\.%d",   handler.Arange),
+        ("float", r"%f\.\.%f\.\.%f", handler.Arange),
+        ("float", r"%f\.\.%f/%d",    handler.Linspace),
         ])
 
 
