@@ -72,9 +72,14 @@ class Parser(object):
         for key, val in dic.iteritems():
             keys.append(key)
             if isinstance(val, str):
-                values.append(self.ParseByGuess(val))
+                vs = self.ParseByGuess(val)
+            elif isinstance(val, list):
+                vs = []
+                for v in val:
+                    vs.extend(self.ParseByGuess(v))
             else:
-                values.append([val])
+                vs = [val]
+            values.append(vs)
         return (keys, values)
 
 

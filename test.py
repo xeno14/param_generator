@@ -36,6 +36,7 @@ class GeneratorTest(unittest.TestCase):
         self.parser = pgenerator.CreateParser()
 
     def Parse(self, val):
+        """Parses dictionary {"key": val}."""
         _, values = self.parser.ParseDict({"key": val})
         return values[0]
 
@@ -60,6 +61,14 @@ class GeneratorTest(unittest.TestCase):
     def testStr(self):
         self.assertEqual(["aiueo"],
                          self.Parse("aiueo"))
+
+    def testList(self):
+        self.assertEqual(["I", "love", "you"],
+                         self.Parse(["I", "love", "you"]))
+
+    def testListInt(self):
+        self.assertEqual([0, 1, 2, 10, 11, 12],
+                         self.Parse(["0..2", "10..12"]))
 
 
 if __name__ == '__main__':
