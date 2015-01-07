@@ -46,6 +46,11 @@ def PGenerator(input_file, output_path):
         keys, values = p.ParseFile(input_file)
         for key, val in zip(keys, values):
             print "{}: {}".format(key, val)
+        num_combination = 1
+        for vals in values:
+            num_combination *= len(vals)
+        print ""
+        print "{} files will be generated.".format(num_combination)
     else:
         for idx, conf in enumerate(p.Generate(input_file)):
             path = output_path.format(idx)
