@@ -47,17 +47,27 @@ class Parser(object):
                 pass
         return [val]
 
+    def ReadFile(self, filename):
+        res = {}
+        with open(filename) as f:
+            res = yaml.load(f)
+        return res
+
     def Generate(self, filename):
         """Yields one of parameter sets from filename."""
-        with open(filename) as f:
-            # TODO load json?
-            for param in self.GenerateImpl(yaml.load(f)):
-                yield param
+        keys, values = self.ParseFile(filename)
+        # Loop for all the possible combinations among values
+        for product in itertools.product(*values):
+            yield {k: product[i] for i, k in enumerate(keys)}
 
-    def GenerateImpl(self, dic):
-        """Yields one of parameter sets from dictionary."""
+    def ParseFile(self, filename):
+        content = self.ReadFile(filename)
+        return self.ParseDict(content)
+
+    def ParseDict(self, dic):
+        """Returns pair of keys and values."""
         keys = []
-        values = []     # variable name -> list of values
+        values = []
 
         for key, val in dic.iteritems():
             keys.append(key)
@@ -65,10 +75,7 @@ class Parser(object):
                 values.append(self.ParseByGuess(val))
             else:
                 values.append([val])
-
-        # Loop for all the possible combinations among values
-        for product in itertools.product(*values):
-            yield {k: product[i] for i, k in enumerate(keys)}
+        return (keys, values)
 
 
 def CreateParser(args_list):

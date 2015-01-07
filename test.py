@@ -36,7 +36,8 @@ class GeneratorTest(unittest.TestCase):
         self.parser = pgenerator.CreateParser()
 
     def Parse(self, val):
-        return [d["key"] for d in self.parser.GenerateImpl({"key": val})]
+        _, values = self.parser.ParseDict({"key": val})
+        return values[0]
 
     def assertAlmostEqualList(self, first, second,
                               places=7, msg=None, delta=None):

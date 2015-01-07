@@ -4,12 +4,12 @@ from handler import *
 import gflags
 import os
 import json
-import sys
 import yaml
 
 
 gflags.DEFINE_bool("verbose", False, "more information")
 gflags.DEFINE_enum("filetype", "yaml", ["yaml", "json"], "filetype of output")
+gflags.DEFINE_bool("show", False, "show parsed values")
 
 FLAGS = gflags.FLAGS
 
@@ -40,7 +40,12 @@ def CreateParser():
 def PGenerator(input_file, output_path):
     p = CreateParser()
 
-    for i, conf in enumerate(p.Generate(input_file)):
-        path = output_path.format(i)
-        print path
-        Output(path, conf)
+    if FLAGS.show:
+        keys, values = p.ParseFile(input_file)
+        for key, val in zip(keys, values):
+            print "{}: {}".format(key, val)
+    else:
+        for idx, conf in enumerate(p.Generate(input_file)):
+            path = output_path.format(idx)
+            print path
+            Output(path, conf)
